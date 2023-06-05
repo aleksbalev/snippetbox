@@ -18,23 +18,23 @@ import (
 // must be exported in order to be read by the html/template package when
 // rendering the template.
 type snippetCreateForm struct {
-	Title       string	`form:"title"`
-	Content     string	`form:"content"`
-	Expires     int	`form:"expires"`
+	Title               string `form:"title"`
+	Content             string `form:"content"`
+	Expires             int    `form:"expires"`
 	validator.Validator `form:"-"`
 }
 
 type userSignupForm struct {
-	Name string `form:"name"`
-	Email string `form:"email"`
-	Password string `form:"password"`
+	Name                string `form:"name"`
+	Email               string `form:"email"`
+	Password            string `form:"password"`
 	validator.Validator `form:"-"`
 }
 
 type UserLoginForm struct {
-  Email string `form:"email"`
-  Password string `form:"password"`
-  validator.Validator `form:"-"`
+	Email               string `form:"email"`
+	Password            string `form:"password"`
+	validator.Validator `form:"-"`
 }
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -55,8 +55,8 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil || id < 1 {
-			app.notFound(w)
-			return
+		app.notFound(w)
+		return
 	}
 
 	snippet, err := app.snippets.Get(id)
@@ -81,7 +81,7 @@ func (app *application) snippetCreate(w http.ResponseWriter, r *http.Request) {
 	data.Form = snippetCreateForm{
 		Expires: 365,
 	}
-	
+
 	app.render(w, http.StatusOK, "create.tmpl.html", data)
 }
 
@@ -92,7 +92,7 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		app.clientError(w, http.StatusBadRequest)
 		return
-	}	
+	}
 
 	err = app.formDecoder.Decode(&form, r.PostForm)
 	if err != nil {
